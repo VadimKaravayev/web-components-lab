@@ -16,6 +16,7 @@ Then open [http://localhost:8080](http://localhost:8080).
 
 ```
 ├── index.html
+├── jsconfig.json                    # VS Code type checking config
 ├── components/
 │   ├── post-card/                   # vanilla — <template>, Shadow DOM, Constructable Stylesheets
 │   │   ├── index.js
@@ -26,6 +27,8 @@ Then open [http://localhost:8080](http://localhost:8080).
 │   │   └── index.js
 │   └── page-input/                  # vanilla — form-associated custom element
 │       └── index.js
+├── types/
+│   └── lit.d.ts                     # hand-written type declarations for the Lit CDN import
 └── lifecycle.md                     # Custom Elements lifecycle reference
 ```
 
@@ -48,3 +51,8 @@ Then open [http://localhost:8080](http://localhost:8080).
 - **Reactive properties** — `static properties` triggers automatic re-renders on change
 - **`html` tagged templates** — efficient DOM diffing, automatic XSS escaping, inline event handlers
 - **`css` tagged templates** — scoped styles via `adoptedStyleSheets` under the hood
+
+**Types**
+- **JSDoc** — `@ts-check`, `@typedef`, `@type`, `@param`, `@returns` for type safety without a build step
+- **`jsconfig.json`** — project-wide TypeScript language service config for VS Code
+- **Custom `.d.ts`** — hand-written type declarations mapping the Lit CDN URL to local types via `paths`
