@@ -26,8 +26,9 @@
     load in dependency order to be explicit.
   -->
   <script src="components/post-card/index.js" type="module"></script>
-  <script src="components/pagination-controls.js" type="module"></script>
-  <script src="components/posts-app.js" type="module"></script>
+  <script src="components/pagination-controls/index.js" type="module"></script>
+  <script src="components/page-input/index.js" type="module"></script>
+  <script src="components/posts-app/index.js" type="module"></script>
 </head>
 <body>
 
@@ -35,7 +36,10 @@
     This is all we need in HTML. The entire app lives inside
     <posts-app>. No framework bootstrapping, no build step.
   -->
-  <posts-app></posts-app>
+  <posts-app>
+    <h1 slot="heading">My Posts Explorer</h1>
+    <span slot="subheading">Browsing JSONPlaceholder data</span>
+  </posts-app>
 
 </body>
 </html>
