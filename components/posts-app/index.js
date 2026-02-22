@@ -1,5 +1,4 @@
-// @ts-nocheck — TypeScript cannot resolve types from a CDN URL.
-// JSDoc is still used below for documentation and editor hints.
+// @ts-check
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
 
 /**

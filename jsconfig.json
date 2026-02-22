@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "strict": true,
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "moduleResolution": "bundler",
+    "typeRoots": ["./types"],
+    "paths": {
+      "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js": ["./types/lit.d.ts"]
+    }
+  },
+  "include": ["components/**/*.js", "types/**/*.d.ts"]
+}
