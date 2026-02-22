@@ -4,6 +4,8 @@ A paginated posts explorer built with native Web Components — no frameworks, n
 
 Data is fetched from [JSONPlaceholder](https://jsonplaceholder.typicode.com/).
 
+**Repository:** [github.com/VadimKaravayev/web-components-lab](https://github.com/VadimKaravayev/web-components-lab)
+
 ## Running locally
 
 ```bash
@@ -11,6 +13,12 @@ python3 -m http.server 8080
 ```
 
 Then open [http://localhost:8080](http://localhost:8080).
+
+To stop the server press `Ctrl+C` in the terminal where it's running, or find and kill the process:
+
+```bash
+lsof -ti :8080 | xargs kill
+```
 
 ## Structure
 
