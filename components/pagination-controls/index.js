@@ -1,4 +1,11 @@
+// @ts-nocheck — TypeScript cannot resolve types from a CDN URL.
+// JSDoc is still used below for documentation and editor hints.
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
+
+/**
+ * @typedef {number | '...'} PageItem
+ * An item in the page range — either a page number or an ellipsis sentinel.
+ */
 
 class PaginationControls extends LitElement {
 
@@ -47,12 +54,17 @@ class PaginationControls extends LitElement {
 
   constructor() {
     super();
+    /** @type {number} */
     this.currentPage = 1;
+    /** @type {number} */
     this.totalPages  = 1;
   }
 
-  // Inline event handlers in html`...` are added once by Lit and reused
-  // across re-renders — no manual addEventListener / removeEventListener.
+  /**
+   * Fires a page-change event that bubbles up through shadow boundaries.
+   * @param {number} page
+   * @fires CustomEvent<{page: number}>
+   */
   #dispatchPageChange(page) {
     this.dispatchEvent(new CustomEvent('page-change', {
       detail: { page },
@@ -92,6 +104,13 @@ class PaginationControls extends LitElement {
     `;
   }
 
+  /**
+   * Builds the visible page range with ellipsis for large page counts.
+   * e.g. [1, '...', 4, 5, 6, '...', 10]
+   * @param {number} current
+   * @param {number} total
+   * @returns {PageItem[]}
+   */
   #buildPageRange(current, total) {
     if (total <= 7) {
       return Array.from({ length: total }, (_, i) => i + 1);
@@ -102,6 +121,7 @@ class PaginationControls extends LitElement {
     ));
     const sorted = [...pages].sort((a, b) => a - b);
 
+    /** @type {PageItem[]} */
     const result = [];
     for (let i = 0; i < sorted.length; i++) {
       result.push(sorted[i]);

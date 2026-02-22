@@ -1,3 +1,5 @@
+// @ts-check
+
 const template = document.createElement('template');
 template.innerHTML = `
   <input type="number" min="1" part="input" />
@@ -16,17 +18,21 @@ class PageInput extends HTMLElement {
     // any styles or querySelector calls from the page would reach inside
     // this component, and our internal styles would leak out to the page.
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    /** @type {ShadowRoot} */ (this.shadowRoot).appendChild(template.content.cloneNode(true));
 
     // ElementInternals is the bridge between the component and its parent form.
     // It gives us: form value submission, validity API, label association.
     this.#internals = this.attachInternals();
   }
 
+  /** @type {ElementInternals} */
   #internals;
 
+  /** @returns {HTMLInputElement} */
   get #input() {
-    return this.shadowRoot.querySelector('input');
+    return /** @type {HTMLInputElement} */ (
+      /** @type {ShadowRoot} */ (this.shadowRoot).querySelector('input')
+    );
   }
 
   connectedCallback() {
@@ -39,7 +45,7 @@ class PageInput extends HTMLElement {
       this.#validate();
     });
 
-    this.shadowRoot.querySelector('button').addEventListener('click', () => {
+    /** @type {HTMLButtonElement} */ (/** @type {ShadowRoot} */ (this.shadowRoot).querySelector('button')).addEventListener('click', () => {
       this.#submit();
     });
 
@@ -51,6 +57,7 @@ class PageInput extends HTMLElement {
 
   // Called by the browser when the element is associated with a form —
   // one of several lifecycle callbacks exclusive to form-associated elements.
+  /** @param {HTMLFormElement | null} form */
   formAssociatedCallback(form) {
     // form is the <form> element this component just joined, or null if removed
     console.log('Associated with form:', form);
@@ -69,13 +76,13 @@ class PageInput extends HTMLElement {
   }
 
   attributeChangedCallback() {
-    const max = parseInt(this.getAttribute('max-page'), 10);
-    if (max) this.#input.max = max;
+    const max = parseInt(this.getAttribute('max-page') ?? '0', 10);
+    if (max) this.#input.max = String(max);
   }
 
   #validate() {
     const value  = parseInt(this.#input.value, 10);
-    const max    = parseInt(this.getAttribute('max-page'), 10) || Infinity;
+    const max    = parseInt(this.getAttribute('max-page') ?? '0', 10) || Infinity;
 
     if (!this.#input.value) {
       // setValidity(flags, message, anchor)
@@ -99,6 +106,7 @@ class PageInput extends HTMLElement {
     }
   }
 
+  /** @fires CustomEvent<{page: number}> */
   #submit() {
     this.#validate();
 
@@ -159,7 +167,7 @@ class PageInput extends HTMLElement {
       }
       button:hover { background: #2563eb; }
     `);
-    this.shadowRoot.adoptedStyleSheets = [sheet];
+    /** @type {ShadowRoot} */ (this.shadowRoot).adoptedStyleSheets = [sheet];
   }
 }
 

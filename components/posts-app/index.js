@@ -1,4 +1,14 @@
+// @ts-nocheck — TypeScript cannot resolve types from a CDN URL.
+// JSDoc is still used below for documentation and editor hints.
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
+
+/**
+ * @typedef {Object} Post
+ * @property {number} id
+ * @property {number} userId
+ * @property {string} title
+ * @property {string} body
+ */
 
 const API   = 'https://jsonplaceholder.typicode.com/posts';
 const LIMIT = 10;
@@ -96,11 +106,17 @@ class PostsApp extends LitElement {
 
   constructor() {
     super();
+    /** @type {number} */
     this._page       = 1;
+    /** @type {number} */
     this._totalPages = 1;
+    /** @type {Post[]} */
     this._posts      = [];
+    /** @type {boolean} */
     this._loading    = false;
+    /** @type {string | null} */
     this._error      = null;
+    /** @type {AbortController | null} */
     this._abortController = null;
   }
 

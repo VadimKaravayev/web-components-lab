@@ -1,3 +1,4 @@
+// @ts-check
 import styles from './styles.js';
 
 // The template is created once at module level — outside the class.
@@ -17,11 +18,14 @@ class PostCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.adoptedStyleSheets = [styles];
+
+    // shadowRoot is guaranteed non-null after attachShadow — cast to silence TS.
+    const root = /** @type {ShadowRoot} */ (this.shadowRoot);
+    root.adoptedStyleSheets = [styles];
 
     // cloneNode(true) does a deep clone of the template's content.
     // This is cheap — no HTML parsing, just copying existing DOM nodes.
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    root.appendChild(template.content.cloneNode(true));
   }
 
   connectedCallback() {
@@ -40,9 +44,12 @@ class PostCard extends HTMLElement {
 
     // Instead of rebuilding the DOM, we just update the text of existing nodes.
     // textContent is safe — no HTML parsing, no XSS risk.
-    this.shadowRoot.querySelector('.meta').textContent = `Post #${id} · User ${userId}`;
-    this.shadowRoot.querySelector('h3').textContent    = title;
-    this.shadowRoot.querySelector('p').textContent     = body;
+    const root = /** @type {ShadowRoot} */ (this.shadowRoot);
+
+    // These elements are guaranteed to exist — cloned from the template above.
+    /** @type {HTMLElement} */ (root.querySelector('.meta')).textContent = `Post #${id} · User ${userId}`;
+    /** @type {HTMLElement} */ (root.querySelector('h3')).textContent    = title;
+    /** @type {HTMLElement} */ (root.querySelector('p')).textContent     = body;
   }
 }
 
