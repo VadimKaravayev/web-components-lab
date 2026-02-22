@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Components — Posts Explorer</title>
+
+  <style>
+    /* Global styles — these CANNOT pierce Shadow DOM boundaries,
+       but inherited properties (color, font-family) DO inherit in. */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f8fafc;
+      color: #1e293b;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+  </style>
+
+  <!--
+    Load order matters: child components must be defined before
+    the parent tries to upgrade them, OR we can rely on the browser's
+    "custom element upgrade" mechanism (elements render once defined,
+    even if added to the DOM first). Either approach works — here we
+    load in dependency order to be explicit.
+  -->
+  <script src="components/post-card/index.js" type="module"></script>
+  <script src="components/pagination-controls.js" type="module"></script>
+  <script src="components/posts-app.js" type="module"></script>
+</head>
+<body>
+
+  <!--
+    This is all we need in HTML. The entire app lives inside
+    <posts-app>. No framework bootstrapping, no build step.
+  -->
+  <posts-app></posts-app>
+
+</body>
+</html>
